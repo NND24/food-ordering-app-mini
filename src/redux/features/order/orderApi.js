@@ -1,0 +1,36 @@
+import { apiSlice } from "../api/apiSlice";
+
+export const orderApi = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    getUserOrder: builder.query({
+      query: () => ({
+        url: `/order/`,
+        method: "GET",
+        credentials: "include",
+      }),
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
+    getOrderDetail: builder.query({
+      query: (orderId) => ({
+        url: `/order/${orderId}`,
+        method: "GET",
+        credentials: "include",
+      }),
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
+  }),
+});
+
+export const { useGetUserOrderQuery, useGetOrderDetailQuery } = orderApi;

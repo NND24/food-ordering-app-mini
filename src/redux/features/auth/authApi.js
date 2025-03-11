@@ -1,5 +1,4 @@
 import { apiSlice } from "../api/apiSlice";
-import { resetCartState } from "../cart/cartSlice";
 import { userApi } from "../user/userApi";
 import { resetUserState } from "../user/userSlice";
 
@@ -62,7 +61,6 @@ export const authApi = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(resetUserState());
-          dispatch(resetCartState());
 
           localStorage.removeItem("userId");
           localStorage.removeItem("token");

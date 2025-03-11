@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { resetUserState } from "../user/userSlice";
-import { resetCartState } from "../cart/cartSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1`,
@@ -32,7 +31,6 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
       // Xóa dữ liệu người dùng
       api.dispatch(resetUserState());
-      api.dispatch(resetCartState());
 
       localStorage.removeItem("userId");
       localStorage.removeItem("token");

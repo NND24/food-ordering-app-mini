@@ -15,10 +15,8 @@ const page = () => {
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
-  const cartState = useSelector((state) => state.cart);
-  const { userCart } = cartState;
 
-  const { refetch: refetchUserCart } = useGetUserCartQuery();
+  const { data: userCart, refetch: refetchUserCart } = useGetUserCartQuery();
   const [clearCart, { isSuccess: clearCartSuccess }] = useClearCartMutation();
 
   useEffect(() => {

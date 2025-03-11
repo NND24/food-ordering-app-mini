@@ -1,8 +1,6 @@
 "use client";
 import "./globals.css";
-import { LocationProvider } from "../context/LocationContext";
 import { ForgotPassEmailProvider } from "../context/ForgotPassEmailContext";
-import { SocketProvider } from "../context/SocketContext";
 import { persistor, store } from "../redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -28,25 +26,21 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Providers>
-          <LocationProvider>
-            <ForgotPassEmailProvider>
-              <SocketProvider>
-                {children}
-                <ToastContainer
-                  position='top-right'
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme='light'
-                />
-              </SocketProvider>
-            </ForgotPassEmailProvider>
-          </LocationProvider>
+          <ForgotPassEmailProvider>
+            {children}
+            <ToastContainer
+              position='top-right'
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme='light'
+            />
+          </ForgotPassEmailProvider>
         </Providers>
       </body>
     </html>

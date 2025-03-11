@@ -62,12 +62,12 @@ const page = () => {
   };
 
   useEffect(() => {
+    console.log("allDish:", allDish);
     if (cart) {
       console.log("cart:", cart);
-      console.log("allDish:", allDish);
       calculateCartPrice();
     }
-  }, [cart]);
+  }, [allDish, cart]);
 
   return (
     <>
@@ -140,7 +140,7 @@ const page = () => {
                 <ListDishBig
                   storeId={storeId}
                   allDish={allDish?.data}
-                  cartItems={cart?.items}
+                  cartItems={cart ? cart?.items : []}
                   refetchCartStore={refetchCartStore}
                 />
               </div>
@@ -149,7 +149,7 @@ const page = () => {
                 <ListDish
                   storeId={storeId}
                   allDish={allDish?.data}
-                  cartItems={cart?.items}
+                  cartItems={cart ? cart?.items : []}
                   refetchCartStore={refetchCartStore}
                 />
               </div>

@@ -7,12 +7,10 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { apiSlice } from "./features/api/apiSlice";
 import userReducer from "./features/user/userSlice";
 import uploadReducer from "./features/upload/uploadSlice";
-import cartReducer from "./features/cart/cartSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
   upload: uploadReducer,
-  cart: cartReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

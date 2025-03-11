@@ -1,17 +1,17 @@
 import React from "react";
 
-const OrderSummary = ({ cartDetailItems, cartPrice }) => {
-  console.log("cartDetailItems: ", cartDetailItems);
+const OrderSummary = ({ detailItems, price }) => {
+  console.log("detailItems: ", detailItems);
   return (
     <>
-      {cartDetailItems && (
+      {detailItems && (
         <>
           <div className='pb-[20px] flex items-center justify-between'>
             <span className='text-[#4A4B4D] text-[18px] font-bold'>Tóm tắt đơn hàng</span>
           </div>
 
           <div className=' flex flex-col gap-[8px]'>
-            {cartDetailItems.map((item) => {
+            {detailItems.map((item) => {
               const dishPrice = (item.dish?.price || 0) * item.quantity;
               const toppingsPrice =
                 (Array.isArray(item.toppings)
@@ -40,11 +40,11 @@ const OrderSummary = ({ cartDetailItems, cartPrice }) => {
             <div className='pt-[15px]'>
               <div className='flex items-center justify-between'>
                 <span className='text-[#4A4B4D]'>Tổng tạm tính</span>
-                <span className='text-[#4A4B4D]'>{cartPrice.toFixed(0)}đ</span>
+                <span className='text-[#4A4B4D]'>{price.toFixed(0)}đ</span>
               </div>
               <div className='flex items-center justify-between'>
                 <span className='text-[#4A4B4D]'>Phí áp dụng</span>
-                <span className='text-[#4A4B4D]'>{cartPrice.toFixed(0)}đ</span>
+                <span className='text-[#4A4B4D]'>{price.toFixed(0)}đ</span>
               </div>
             </div>
           </div>
