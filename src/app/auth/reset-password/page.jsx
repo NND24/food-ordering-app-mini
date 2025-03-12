@@ -76,6 +76,7 @@ const page = () => {
               <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-[80%] p-[20px] rounded-full my-[10px] gap-[8px] border-2 border-[#ccc] border-solid'>
                 <Image src='/assets/lock.png' alt='' width={25} height={25} />
                 <input
+                  name="newPassword"
                   type={showPass ? "text" : "password"}
                   value={formik.values.newPassword}
                   onChange={formik.handleChange("newPassword")}
@@ -143,6 +144,7 @@ const page = () => {
               ) : null}
 
               <button
+                name="submitBtn"
                 type='submit'
                 className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] ${
                   formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"

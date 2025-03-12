@@ -3,18 +3,17 @@ TESTCASE FORGOT PASSWORD SUCCESS
 
 Input:
     email: Correct email -> Submit to redirect to /auth/confirm-otp
-    otp: Expired otp ( fetch from email ) -> Submit to get error
+    otp: Incorrect otp ( fetch from email ) -> Submit to get error
 
 Expected output:
-    RESET PASSWORD FAIL -> Given otp exprire in the system
+    RESET PASSWORD FAIL -> Given otp incorrect in the system
 
 */
-
 require("dotenv").config();
 const { createDriver, By, until } = require("../../../config/webdriver_config");
 const getOTPFromEmail = require("../../../utils/getOTPFromEmail");
 
-async function testForgotPasswordExpireOTP() {
+async function testForgotPasswordWrongOTP() {
     let driver = await createDriver();
     let result = { name: "Forgot Password Full Flow Test", status: "Failed" };
 
@@ -38,17 +37,13 @@ async function testForgotPasswordExpireOTP() {
         await driver.wait(until.urlContains("/auth/confirm-otp"), 10000);
         console.log("✅ Redirected to OTP confirmation page");
 
-        console.log("✅ Start wait 2 minutes to get the OTP expire");
-        await new Promise(resolve => setTimeout(resolve, 120000));
-        console.log("✅ 2 minutes end");
         // Wait for OTP inputs to appear
         await driver.wait(until.elementLocated(By.id("otp-input-0")), 5000);
 
         // Fetch OTP from email
-        const otp = await getOTPFromEmail();
-        if (!otp) throw new Error("OTP not received");
+        const otp = "000000"
 
-        console.log(`✅ OTP received: ${otp}`);
+        console.log(`✅ Random OTP : ${otp}`);
 
         // Enter OTP into fields
         for (let i = 0; i < otp.length; i++) {
@@ -70,7 +65,7 @@ async function testForgotPasswordExpireOTP() {
             10000
         );
 
-        console.log("✅ Error notification displayed: Expire OTP.");
+        console.log("✅ Error notification displayed: Wrong OTP.");
 
 
         result.status = "Passed";
@@ -83,4 +78,4 @@ async function testForgotPasswordExpireOTP() {
     return result;
 }
 
-module.exports = { testForgotPasswordExpireOTP };
+module.exports = { testForgotPasswordWrongOTP };
