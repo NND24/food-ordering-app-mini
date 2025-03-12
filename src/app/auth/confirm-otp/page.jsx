@@ -89,17 +89,24 @@ const page = () => {
 
     try {
       await checkOTP({ email, otp: otpValue }).unwrap();
-
-      if (checkOTPSuccess) {
-        toast.success("Xác thực OTP thành công!");
-        router.push("/auth/reset-password");
-      } else {
-        toast.error("Mã OTP không hợp lệ, vui lòng thử lại!");
-      }
     } catch (error) {
       toast.error(error?.data?.message || "Có lỗi xảy ra!");
     }
   };
+
+  useEffect(() => {
+    if (checkOTPSuccess) {
+      toast.success("Xác thực OTP thành công!");
+      router.push("/auth/reset-password");
+    }
+
+    if (forgetPassError) {
+      if ("data" in forgetPassError) {
+        const errorData = forgetPassError;
+        toast.error(errorData.data.message);
+      }
+    }
+  }, [checkOTPSuccess]);
 
   return (
     <div className='md:bg-[#f9f9f9] md:pt-[110px]'>
@@ -120,7 +127,7 @@ const page = () => {
           </div>
 
           {/* Form nhập OTP */}
-          <div className='flex space-x-3 my-4'>
+          <div className='flex space-x-3 md:space-x-8 my-4'>
             {otp.map((_, index) => (
               <input
                 key={index}
@@ -139,7 +146,7 @@ const page = () => {
           <button
             onClick={handleSubmit}
             disabled={otp.join("").length < 6}
-            className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] ${
+            className={`text-center text-[#fff] font-semibold w-[70%] p-[20px] rounded-full my-[10px] ${
               otp.join("").length === 6 ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
             }`}
           >
@@ -149,8 +156,8 @@ const page = () => {
           <p className='text-[#636464] font-semibold mt-[20px]'>
             Không nhận được mã?{" "}
             <span
-              onClick={() => {
-                forgotPassword({ email });
+              onClick={async () => {
+                await forgotPassword({ email });
               }}
               className='text-[#fc6011] cursor-pointer'
             >
