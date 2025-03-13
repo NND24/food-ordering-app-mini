@@ -13,6 +13,7 @@ const ToppingItem = ({ topping, cartItem, handleChooseTopping }) => {
   return (
     <div
       className='flex items-center justify-between py-[20px] cursor-pointer'
+      name='checkedBtn'
       style={{ borderBottom: "1px solid #a3a3a3a3" }}
       onClick={() => {
         handleChooseTopping(topping, topping.price);

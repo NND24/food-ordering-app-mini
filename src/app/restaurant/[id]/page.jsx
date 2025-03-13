@@ -157,6 +157,7 @@ const page = () => {
           </div>
           {cartQuantity > 0 && cart && (
             <Link
+              name='cartDetailBtn'
               href={`/restaurant/${storeId}/cart/${cart._id}`}
               className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center justify-center'
             >

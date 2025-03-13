@@ -56,7 +56,7 @@ const DishBigCard = ({ dish, storeId, cartItems, refetchCartStore }) => {
 
   return (
     <Link href={`/restaurant/${dish.store}/dish/${dish._id}`} className=''>
-      <div className='relative flex flex-col gap-[4px] pt-[75%] w-full'>
+      <div className='relative flex flex-col gap-[4px] pt-[75%] w-full' name='bigDishCard'>
         <Image
           src={dish?.image?.url}
           alt=''

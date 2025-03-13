@@ -225,6 +225,7 @@ const page = () => {
                     </div>
                     {toppingGroup.toppings.map((topping) => (
                       <ToppingItem
+                        name='toppingItems'
                         key={topping._id}
                         topping={topping}
                         cartItem={cartItem}
@@ -251,6 +252,7 @@ const page = () => {
 
               <div className='p-[20px] flex items-center justify-center gap-[5px]'>
                 <Image
+                  name='decreaseQuantityBtn'
                   src='/assets/minus.png'
                   alt=''
                   width={50}
@@ -273,6 +275,7 @@ const page = () => {
                   className='text-[#4A4B4D] text-[24px] font-bold w-[60px] text-center'
                 />
                 <Image
+                  name='increaseQuantityBtn'
                   src='/assets/plus_active.png'
                   alt=''
                   width={50}
@@ -290,6 +293,7 @@ const page = () => {
           <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] md:px-0 py-[15px] z-[100] flex items-center justify-center'>
             {quantity > 0 ? (
               <div
+                name='addCartBtn'
                 className='flex items-center justify-center gap-[6px] rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[60%] md:w-[80%] w-full md:mx-auto cursor-pointer'
                 onClick={handleAddToCart}
               >
