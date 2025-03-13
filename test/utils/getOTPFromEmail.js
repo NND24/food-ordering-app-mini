@@ -17,27 +17,36 @@ async function getOTPFromEmail() {
     };
 
     try {
-        console.log("Opening connection...");
+        await new Promise(resolve => setTimeout(resolve, 3000));
         const connection = await imaps.connect(config);
         await connection.openBox('INBOX');
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            // console.log(`Attempt ${attempt}: Searching for OTP email...`);
+            const searchCriteria = ["UNSEEN", ["SUBJECT", "Forgot Password OTP"]];
+            const fetchOptions = { bodies: ["TEXT"], markSeen: true, struct: true };
+            const messages = await connection.search(searchCriteria, fetchOptions);
 
-        console.log("Searching for OTP email...");
-        const searchCriteria = ["UNSEEN", ["SUBJECT", "Forgot Password OTP"]];
-        const fetchOptions = { bodies: ["TEXT"], markSeen: true };
-        const messages = await connection.search(searchCriteria, fetchOptions);
+            if (messages.length > 0) {
+                // Sort emails by date (latest first)
+                messages.sort((a, b) => new Date(b.attributes.date) - new Date(a.attributes.date));
 
-        for (let msg of messages) {
-            const text = msg.parts.find(part => part.which === "TEXT").body; // ✅ FIXED
+                for (let msg of messages) {
+                    const text = msg.parts.find(part => part.which === "TEXT").body;
+                    const otpMatch = text.match(/\b\d{6}\b/);
+                    if (otpMatch) {
+                        console.log("✅ OTP Found:", otpMatch[0]);
+                        return otpMatch[0]; // Return the latest OTP
+                    }
+                }
+            }
 
-            // Extract OTP using regex that matches a 6-digit number
-            const otpMatch = text.match(/\b\d{6}\b/);
-            if (otpMatch) {
-                console.log("✅ OTP Found:", otpMatch[0]);
-                return otpMatch[0]; // Return the OTP
+            if (attempt < 3) {
+                console.log(`⚠️ No OTP found. Retrying in 3 seconds...`);
+                await new Promise(resolve => setTimeout(resolve, 3000));
             }
         }
 
-        console.log("⚠️ No OTP found.");
+        console.log("⚠️ No OTP found after 3 attempts.");
         return null;
     } catch (error) {
         console.error("❌ Error fetching OTP:", error);
