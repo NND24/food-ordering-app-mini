@@ -68,11 +68,7 @@ const page = () => {
             </div>
 
             <div className='bg-[#fff] flex flex-col gap-[15px] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
-              <Link
-                href={`/restaurant/${orderDetail.data.store._id}`}
-                className='flex gap-[15px] pb-[20px]'
-                style={{ borderBottom: "6px solid #e0e0e0a3" }}
-              >
+              <Link href={`/restaurant/${orderDetail.data.store._id}`} className='flex gap-[15px]'>
                 <div className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'>
                   <Image
                     src={orderDetail.data.store.avatar.url}
@@ -93,7 +89,33 @@ const page = () => {
                 </div>
               </Link>
 
-              <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+              <div
+                className='py-[20px] mt-[85px] md:mt-0'
+                style={{ borderBottom: "6px solid #e0e0e0a3", borderTop: "6px solid #e0e0e0a3" }}
+              >
+                <p className='text-[#4A4B4D] text-[18px] font-bold pb-[20px]'>Giao tới</p>
+
+                <div
+                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden`}
+                >
+                  <Image
+                    src='/assets/location.png'
+                    alt=''
+                    width={20}
+                    height={20}
+                    className='absolute top-[50%] left-[10px] translate-y-[-50%]'
+                  />
+                  <input
+                    type='text'
+                    name='deliveryAddress'
+                    readOnly
+                    value={orderDetail.data.shipLocation.address}
+                    className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
+                  />
+                </div>
+              </div>
+
+              <div className='pb-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
                 <div className='pb-[20px] flex items-center justify-between'>
                   <span className='text-[#4A4B4D] text-[18px] font-bold'>Thông tin thanh toán</span>
                 </div>
@@ -113,9 +135,7 @@ const page = () => {
                 </div>
               </div>
 
-              <div className='p-[20px]'>
-                <OrderSummary detailItems={orderDetail.data.items} price={price} />
-              </div>
+              <OrderSummary detailItems={orderDetail.data.items} price={price} />
             </div>
           </div>
         </div>
