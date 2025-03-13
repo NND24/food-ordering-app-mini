@@ -138,13 +138,13 @@ const page = () => {
                 onChange={(e) => handleChange(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 placeholder='*'
-                className='w-[50px] h-[50px] text-center text-xl border-2 border-[#ccc] border-solid rounded-lg bg-[#f5f5f5] text-[#636464]'
+                className='w-[50px] h-[50px] text-center text-xl border-2 border-[#7a7a7a] border-solid rounded-lg bg-[#f5f5f5] text-[#636464]'
               />
             ))}
           </div>
 
           <button
-            name="submitBtn"
+            name='submitBtn'
             onClick={handleSubmit}
             disabled={otp.join("").length < 6}
             className={`text-center text-[#fff] font-semibold w-[70%] p-[20px] rounded-full my-[10px] ${

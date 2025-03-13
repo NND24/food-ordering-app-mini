@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import { useGetDishQuery, useGetToppingFromDishQuery } from "../../../../../redux/features/dish/dishApi";
 import ToppingItem from "../../../../../components/dish/ToppingItem";
 import { useGetUserCartInStoreQuery, useUpdateCartMutation } from "../../../../../redux/features/cart/cartApi";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const NoteModel = ({ setShowNoteModel }) => {
   return (
@@ -58,6 +60,9 @@ const page = () => {
   const [toppingsValue, setToppingsValue] = useState([]);
   const [price, setPrice] = useState(0);
   const [checkpoint, setCheckpoint] = useState(false);
+
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
 
   const { data: dishInfo } = useGetDishQuery(dishId);
   const { data: toppingGroups, refetch: refetchToppingGroups } = useGetToppingFromDishQuery(dishId);
@@ -165,13 +170,21 @@ const page = () => {
   };
 
   const handleAddToCart = async () => {
-    await updateCart({ storeId, dishId, quantity, toppings });
-    setCheckpoint(true);
+    if (currentUser) {
+      await updateCart({ storeId, dishId, quantity, toppings });
+      setCheckpoint(true);
+    } else {
+      toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
+    }
   };
 
   const handleRemoveFromCart = async () => {
-    await updateCart({ storeId, dishId, quantity: 0, toppings });
-    setCheckpoint(true);
+    if (currentUser) {
+      await updateCart({ storeId, dishId, quantity: 0, toppings });
+      setCheckpoint(true);
+    } else {
+      toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
+    }
   };
 
   useEffect(() => {

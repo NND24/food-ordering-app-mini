@@ -21,7 +21,7 @@ const page = () => {
 
   useEffect(() => {
     console.log(userCart);
-  }, []);
+  }, [userCart]);
 
   useEffect(() => {
     if (currentUser) {
@@ -64,7 +64,7 @@ const page = () => {
                 </div>
               </div>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
-                {userCart.map((cartItem) => (
+                {userCart.data.map((cartItem) => (
                   <CartItem key={cartItem._id} cartItem={cartItem} />
                 ))}
               </div>

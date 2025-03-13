@@ -71,7 +71,7 @@ const page = () => {
 
   return (
     <>
-      {storeInfo && allDish && (
+      {storeInfo && (
         <div className={`pb-[90px] md:pt-[34px] md:bg-[#f9f9f9]`}>
           <Heading title={storeInfo?.data?.name} description='' keywords='' />
           <div className='hidden md:block'>
@@ -137,21 +137,25 @@ const page = () => {
             <div className='md:p-[20px]'>
               <div className='my-[20px] px-[20px] md:px-0 lg:mt-[60px]'>
                 <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
-                <ListDishBig
-                  storeId={storeId}
-                  allDish={allDish?.data}
-                  cartItems={cart ? cart?.items : []}
-                  refetchCartStore={refetchCartStore}
-                />
+                {allDish && (
+                  <ListDishBig
+                    storeId={storeId}
+                    allDish={allDish?.data}
+                    cartItems={cart ? cart?.items : []}
+                    refetchCartStore={refetchCartStore}
+                  />
+                )}
               </div>
 
               <div className='my-[20px] px-[20px] md:px-0'>
-                <ListDish
-                  storeId={storeId}
-                  allDish={allDish?.data}
-                  cartItems={cart ? cart?.items : []}
-                  refetchCartStore={refetchCartStore}
-                />
+                {allDish && (
+                  <ListDish
+                    storeId={storeId}
+                    allDish={allDish?.data}
+                    cartItems={cart ? cart?.items : []}
+                    refetchCartStore={refetchCartStore}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useUpdateCartMutation } from "../../redux/features/cart/cartApi";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const DishCard = ({ dish, storeId, cartItems, refetchCartStore }) => {
   const router = useRouter();
@@ -11,6 +13,9 @@ const DishCard = ({ dish, storeId, cartItems, refetchCartStore }) => {
   const [quantity, setQuantity] = useState(0);
   const [showChangeAmount, setShowChangeAmount] = useState(false);
   const [pendingQuantity, setPendingQuantity] = useState(null);
+
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
 
   const [updateCart, { isSuccess: updateCartSuccess }] = useUpdateCartMutation();
 
@@ -35,14 +40,18 @@ const DishCard = ({ dish, storeId, cartItems, refetchCartStore }) => {
   }, [pendingQuantity]);
 
   const handleChangeQuantity = (amount) => {
-    if (dish.toppingGroups.length > 0) {
-      router.push(`/restaurant/${storeId}/dish/${dish._id}`);
+    if (currentUser) {
+      if (dish.toppingGroups.length > 0) {
+        router.push(`/restaurant/${storeId}/dish/${dish._id}`);
+      } else {
+        setQuantity((prev) => {
+          const newQuantity = Math.max(prev + amount, 0);
+          setPendingQuantity(newQuantity);
+          return newQuantity;
+        });
+      }
     } else {
-      setQuantity((prev) => {
-        const newQuantity = Math.max(prev + amount, 0);
-        setPendingQuantity(newQuantity);
-        return newQuantity;
-      });
+      toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
     }
   };
 

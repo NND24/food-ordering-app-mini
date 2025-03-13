@@ -13,9 +13,6 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 
 const page = () => {
-  const [showPass, setShowPass] = useState(false);
-  const [avatarFile, setAvatarFile] = useState(null);
-
   const userState = useSelector((state) => state?.user);
   const { currentUser } = userState;
 
@@ -86,7 +83,7 @@ const page = () => {
         </div>
 
         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-[20px] md:gap-[10px]'>
-          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Name</span>
             <input
               type='text'
@@ -102,7 +99,7 @@ const page = () => {
             <div className='text-red-500 text-sm'>{formik.errors.name}</div>
           ) : null}
 
-          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Email</span>
             <input
               type='email'
@@ -113,7 +110,7 @@ const page = () => {
             />
           </div>
 
-          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Số điện thoại</span>
             <input
               type='text'
@@ -122,7 +119,7 @@ const page = () => {
               onBlur={formik.handleBlur("phonenumber")}
               placeholder='Nhập số điện thoại'
               value={formik.values.phonenumber}
-              className='bg-[#f5f5f5] text-[18px] w-full'
+              className='bg-[#f5f5f5] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
           </div>
           {formik.touched.phonenumber && formik.errors.phonenumber ? (
@@ -132,7 +129,7 @@ const page = () => {
           <div className='w-full my-[10px] flex gap-[2px] flex-col justify-between'>
             <div className='flex gap-[10px] flex-row'>
               <label
-                className={`flex items-center justify-between flex-1 p-[12px] rounded-[6px] border border-solid text-subColor ${
+                className={`flex items-center justify-between flex-1 p-[12px] rounded-[15px] border border-solid text-subColor ${
                   formik.touched.gender && formik.errors.gender !== undefined ? "border-red-500" : "border-[#7a7a7a]"
                 }`}
                 htmlFor='female'
@@ -150,7 +147,7 @@ const page = () => {
               </label>
 
               <label
-                className={`flex items-center justify-between flex-1 p-[12px] rounded-[6px] border border-solid border-borderColor text-subColor ${
+                className={`flex items-center justify-between flex-1 p-[12px] rounded-[15px] border border-solid border-borderColor text-subColor ${
                   formik.touched.gender && formik.errors.gender !== undefined ? "border-red-500" : "border-[#7a7a7a]"
                 }`}
                 htmlFor='male'
@@ -170,7 +167,7 @@ const page = () => {
               </label>
 
               <label
-                className={`flex items-center justify-between flex-1 p-[12px] rounded-[6px] border border-solid border-borderColor text-subColor ${
+                className={`flex items-center justify-between flex-1 p-[12px] rounded-[15px] border border-solid border-borderColor text-subColor ${
                   formik.touched.gender && formik.errors.gender !== undefined ? "border-red-500" : "border-[#7a7a7a]"
                 }`}
                 htmlFor='other'
@@ -193,70 +190,6 @@ const page = () => {
               <div className='text-red-500 text-sm'>{formik.errors.gender}</div>
             ) : null}
           </div>
-
-          {!currentUser?.isGoogleLogin && (
-            <>
-              <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
-                <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Mật khẩu</span>
-                <input
-                  type={showPass ? "text" : "password"}
-                  name=''
-                  id=''
-                  placeholder='Nhập mật khẩu của bạn'
-                  className='bg-[#f5f5f5] text-[18px] w-full'
-                />
-                {showPass ? (
-                  <Image
-                    src='/assets/eye_show.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-                    onClick={() => setShowPass(!showPass)}
-                  />
-                ) : (
-                  <Image
-                    src='/assets/eye_hide.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-                    onClick={() => setShowPass(!showPass)}
-                  />
-                )}
-              </div>
-
-              <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[10px] gap-[8px]'>
-                <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Nhập lại mật khẩu</span>
-                <input
-                  type={showPass ? "text" : "password"}
-                  name=''
-                  id=''
-                  placeholder='Nhập lại mật khẩu'
-                  className='bg-[#f5f5f5] text-[18px] w-full'
-                />
-                {showPass ? (
-                  <Image
-                    src='/assets/eye_show.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-                    onClick={() => setShowPass(!showPass)}
-                  />
-                ) : (
-                  <Image
-                    src='/assets/eye_hide.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-                    onClick={() => setShowPass(!showPass)}
-                  />
-                )}
-              </div>
-            </>
-          )}
 
           <button
             type='submit'

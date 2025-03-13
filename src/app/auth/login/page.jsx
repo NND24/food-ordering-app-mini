@@ -80,7 +80,7 @@ const page = () => {
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
               <div className='w-[80%] my-[10px]'>
                 <div
-                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-full gap-[8px] border border-solid overflow-hidden ${
+                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden ${
                     formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
@@ -108,7 +108,7 @@ const page = () => {
 
               <div className='w-[80%] my-[10px]'>
                 <div
-                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-full gap-[8px] border border-solid overflow-hidden ${
+                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden ${
                     formik.touched.password && formik.errors.password ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
@@ -167,26 +167,6 @@ const page = () => {
             <Link href='/auth/forgot-password' className='text-[#636464] font-semibold my-[10px] cursor-pointer'>
               Quên mật khẩu?
             </Link>
-
-            <div className='relative bg-[#636464] h-[1px] w-[80%] mb-[20px] mt-[30px]'>
-              <span className='absolute right-[45%] top-[-10px] text-[#636464] font-medium bg-[#fff]'>Hoặc</span>
-            </div>
-
-            <div className='login-google__button w-[80%] rounded-full my-[10px] overflow-hidden cursor-pointer'>
-              <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-                <GoogleLogin
-                  onSuccess={(credentialResponse) => {
-                    const token = credentialResponse.credential;
-                    loginWithGoogle({ token });
-                  }}
-                  onError={() => {
-                    console.error("Login Failed");
-                  }}
-                  shape='pill'
-                  width='100%'
-                />
-              </GoogleOAuthProvider>
-            </div>
           </div>
 
           <p className='text-[#636464] font-semibold mt-[20px]'>
