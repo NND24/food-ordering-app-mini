@@ -223,8 +223,8 @@ const page = () => {
 
               <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
                 <div className='flex justify-between'>
-                  <h3 className='text-[#4A4B4D] text-[28px] font-bold'>{dishInfo.data.name}</h3>
-                  <span className='text-[#4A4B4D] text-[28px] font-bold'>{dishInfo.data.price}đ</span>
+                  <h3 className='text-[#4A4B4D] text-[28px] font-bold' name="dishName">{dishInfo.data.name}</h3>
+                  <span className='text-[#4A4B4D] text-[28px] font-bold' name="dishPrice">{dishInfo.data.price}đ</span>
                 </div>
                 <p className='text-[#a4a5a8]'>{dishInfo.data.description}</p>
               </div>
@@ -312,7 +312,7 @@ const page = () => {
               >
                 <span className='text-[#fff] text-[20px] font-semibold'>Thêm vào giỏ hàng</span>
                 <span className='text-[#fff] text-[20px] font-semibold'>-</span>
-                <span className='text-[#fff] text-[20px] font-semibold'>{price.toFixed(0)}đ</span>
+                <span className='text-[#fff] text-[20px] font-semibold' name="totalPrice">{price.toFixed(0)}đ</span>
               </div>
             ) : (
               <div className='flex items-center gap-[10px] lg:w-[60%] md:w-[80%] w-full md:mx-auto '>

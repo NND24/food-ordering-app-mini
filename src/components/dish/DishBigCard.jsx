@@ -126,9 +126,9 @@ const DishBigCard = ({ dish, storeId, cartItems, refetchCartStore }) => {
       </div>
 
       <div>
-        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1'>{dish?.name}</h4>
+        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1' name='dishName'>{dish?.name}</h4>
         {dish?.description && <p className='text-[#a4a5a8] text-[14px]'>{dish?.description}</p>}
-        <p className='text-[#000] font-bold'>{dish?.price}đ</p>
+        <p className='text-[#000] font-bold' name='dishPrice'>{dish?.price}đ</p>
       </div>
     </Link>
   );
