@@ -4,21 +4,29 @@ import MobileHeader from "../../components/header/MobileHeader";
 import Heading from "../../components/Heading";
 import NavBar from "../../components/NavBar";
 import OrderItem from "../../components/order/OrderItem";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetUserOrderQuery } from "../../redux/features/order/orderApi";
+import { useSelector } from "react-redux";
 
 const page = () => {
-  const { data: userOrders, refetch: refetchGetUserOrder } = useGetUserOrderQuery();
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
+  const orderState = useSelector((state) => state.order);
+  const { userOrder } = orderState;
+
+  const { isLoading: getUserOrderLoading, refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
+    skip: !currentUser,
+  });
 
   useEffect(() => {
-    refetchGetUserOrder();
-  }, []);
+    if (currentUser) {
+      refetchUserOrder();
+    }
+  }, [currentUser, refetchUserOrder]);
 
   useEffect(() => {
-    console.log(userOrders);
-  }, [userOrders]);
+    console.log(userOrder);
+  }, [userOrder]);
 
   return (
     <div className='pt-[30px] pb-[100px] md:pt-[75px] md:px-0'>
@@ -33,10 +41,16 @@ const page = () => {
         <div className='my-[20px]'>
           <h3 className='text-[#4A4B4D] text-[24px] font-bold mb-[10px]'>Đơn hàng</h3>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
-            {userOrders ? (
-              userOrders.data.map((order) => <OrderItem key={order._id} order={order} history={false} />)
+            {getUserOrderLoading ? (
+              <>
+                {userOrder ? (
+                  userOrder.map((order) => <OrderItem key={order._id} order={order} history={false} />)
+                ) : (
+                  <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
+                )}
+              </>
             ) : (
-              <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
+              <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Đang tải...</h3>
             )}
           </div>
         </div>

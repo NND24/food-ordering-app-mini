@@ -8,7 +8,7 @@ const CartItem = ({ cartItem }) => {
   const [quantity, setQuantity] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const [clearCartItem, { isSuccess: clearCartItemSuccess }] = useClearCartItemMutation();
+  const [clearCartItem] = useClearCartItemMutation();
 
   useEffect(() => {
     const totalQuantity = cartItem.items.reduce((sum, item) => sum + item.quantity, 0);

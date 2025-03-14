@@ -9,40 +9,49 @@ import { useParams } from "next/navigation";
 import { useGetStoreInformationQuery } from "../../../redux/features/store/storeApi";
 import { useGetAllDishQuery } from "../../../redux/features/dish/dishApi";
 import { useEffect, useState } from "react";
-import { useGetUserCartInStoreQuery } from "../../../redux/features/cart/cartApi";
+import { useSelector } from "react-redux";
+import { store } from "../../../redux/store";
+import { useGetUserCartQuery } from "../../../redux/features/cart/cartApi";
 
 const page = () => {
   const { id: storeId } = useParams();
 
-  const [cart, setCart] = useState(null);
+  const [storeCart, setStoreCart] = useState(null);
   const [cartPrice, setCartPrice] = useState(0);
   const [cartQuantity, setCartQuantity] = useState(0);
 
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
+  const cartState = useSelector((state) => state.cart);
+  const { userCart } = cartState;
+
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
   const { data: storeInfo, refetch: refetchStoreInfo } = useGetStoreInformationQuery(storeId);
   const { data: allDish, refetch: refetchAllDish } = useGetAllDishQuery(storeId);
-  const {
-    data: cartStore,
-    refetch: refetchCartStore,
-    isSuccess: getUserCartSuccess,
-  } = useGetUserCartInStoreQuery(storeId);
 
   useEffect(() => {
-    if (cartStore) {
-      console.log("cartStore: ", cartStore);
-      setCart(cartStore.data);
+    if (currentUser) {
+      refetchUserCart();
     }
-  }, [cartStore, getUserCartSuccess]);
+  }, [currentUser, refetchUserCart]);
+
+  useEffect(() => {
+    if (userCart) {
+      setStoreCart(userCart.find((cart) => cart.store._id === storeId));
+    }
+  }, [userCart]);
 
   useEffect(() => {
     if (storeId) {
       refetchStoreInfo();
       refetchAllDish();
-      refetchCartStore();
     }
   }, []);
 
   const calculateCartPrice = () => {
-    const { totalPrice, totalQuantity } = cartStore.data.items.reduce(
+    const { totalPrice, totalQuantity } = storeCart.items.reduce(
       (acc, item) => {
         const dishPrice = (item.dish?.price || 0) * item.quantity;
         const toppingsPrice =
@@ -62,12 +71,11 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log("allDish:", allDish);
-    if (cart) {
-      console.log("cart:", cart);
+    console.log("storeCart: ", storeCart);
+    if (storeCart) {
       calculateCartPrice();
     }
-  }, [allDish, cart]);
+  }, [storeCart]);
 
   return (
     <>
@@ -141,28 +149,23 @@ const page = () => {
                   <ListDishBig
                     storeId={storeId}
                     allDish={allDish?.data}
-                    cartItems={cart ? cart?.items : []}
-                    refetchCartStore={refetchCartStore}
+                    cartItems={storeCart ? storeCart?.items : []}
                   />
                 )}
               </div>
 
               <div className='my-[20px] px-[20px] md:px-0'>
                 {allDish && (
-                  <ListDish
-                    storeId={storeId}
-                    allDish={allDish?.data}
-                    cartItems={cart ? cart?.items : []}
-                    refetchCartStore={refetchCartStore}
-                  />
+                  <ListDish storeId={storeId} allDish={allDish?.data} cartItems={storeCart ? storeCart?.items : []} />
                 )}
               </div>
             </div>
           </div>
-          {cartQuantity > 0 && cart && (
+          {cartQuantity > 0 && storeCart && (
             <Link
               name='cartDetailBtn'
-              href={`/restaurant/${storeId}/cart/${cart._id}`}
+              href={`/restaurant/${storeId}/cart/${storeCart._id}`}
+
               className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center justify-center'
             >
               <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] w-full md:mx-auto'>
