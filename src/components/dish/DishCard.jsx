@@ -44,6 +44,7 @@ const DishCard = ({ dish, storeId, cartItems }) => {
 
   return (
     <Link
+      name='storeCard'
       href={`/restaurant/${dish.store}/dish/${dish._id}`}
       className='relative flex gap-[15px] items-start pb-[15px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[8px] md:p-[10px]'
       style={{ borderBottom: "1px solid #a3a3a3a3" }}
@@ -53,7 +54,7 @@ const DishCard = ({ dish, storeId, cartItems }) => {
       </div>
 
       <div className='flex flex-col flex-1'>
-        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1'>{dish?.name}</h4>
+        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1' name='storeName'>{dish?.name}</h4>
         {dish?.description && <p className='text-[#a4a5a8] text-[14px]'>{dish?.description}</p>}
         <div className='flex items-center justify-between'>
           <span className='text-[#000] font-bold'>{dish?.price}đ</span>

@@ -44,7 +44,7 @@ const DishBigCard = ({ dish, storeId, cartItems }) => {
 
   return (
     <Link href={`/restaurant/${dish.store}/dish/${dish._id}`} className=''>
-      <div className='relative flex flex-col gap-[4px] pt-[75%] w-full'>
+      <div className='relative flex flex-col gap-[4px] pt-[75%] w-full' name='bigDishCard'>
         <Image
           src={dish?.image?.url}
           alt=''
@@ -92,6 +92,7 @@ const DishBigCard = ({ dish, storeId, cartItems }) => {
         ) : (
           <Image
             src='/assets/add_active.png'
+            name='addingCart'
             alt=''
             width={40}
             height={40}
@@ -105,9 +106,9 @@ const DishBigCard = ({ dish, storeId, cartItems }) => {
       </div>
 
       <div>
-        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1'>{dish?.name}</h4>
+        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1' name='dishName'>{dish?.name}</h4>
         {dish?.description && <p className='text-[#a4a5a8] text-[14px]'>{dish?.description}</p>}
-        <p className='text-[#000] font-bold'>{dish?.price}đ</p>
+        <p className='text-[#000] font-bold' name='dishPrice'>{dish?.price}đ</p>
       </div>
     </Link>
   );
