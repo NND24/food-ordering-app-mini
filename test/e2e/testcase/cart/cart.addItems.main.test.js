@@ -9,6 +9,7 @@ async function testAddingCart() {
     let cart = []; // Store selected items
 
     try {
+        await driver.get("http://localhost:3000/home");
         // Find and click the store
         const storeCard = await driver.wait(
             until.elementLocated(By.xpath("//h4[text()='Tasty Bites']")),

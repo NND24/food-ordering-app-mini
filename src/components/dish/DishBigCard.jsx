@@ -113,6 +113,7 @@ const DishBigCard = ({ dish, storeId, cartItems, refetchCartStore }) => {
         ) : (
           <Image
             src='/assets/add_active.png'
+            name='addingCart'
             alt=''
             width={40}
             height={40}
