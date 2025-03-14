@@ -7,7 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useGetDishQuery, useGetToppingFromDishQuery } from "../../../../../redux/features/dish/dishApi";
 import ToppingItem from "../../../../../components/dish/ToppingItem";
-import { useGetUserCartInStoreQuery, useUpdateCartMutation } from "../../../../../redux/features/cart/cartApi";
+import { useGetUserCartQuery, useUpdateCartMutation } from "../../../../../redux/features/cart/cartApi";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -53,6 +53,7 @@ const page = () => {
   const router = useRouter();
   const { id: storeId, dishId } = useParams();
 
+  const [storeCart, setStoreCart] = useState(null);
   const [showNoteModel, setShowNoteModel] = useState(false);
   const [quantity, setQuantity] = useState(0);
   const [cartItem, setCartItem] = useState(null);
@@ -63,15 +64,31 @@ const page = () => {
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
+  const cartState = useSelector((state) => state.cart);
+  const { userCart } = cartState;
 
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
   const { data: dishInfo } = useGetDishQuery(dishId);
   const { data: toppingGroups, refetch: refetchToppingGroups } = useGetToppingFromDishQuery(dishId);
-  const { data: cartStore, refetch: refetchCartStore } = useGetUserCartInStoreQuery(storeId);
   const [updateCart, { isSuccess: updateCartSuccess }] = useUpdateCartMutation();
 
   useEffect(() => {
-    if (cartStore) {
-      const item = cartStore.data.items.find((item) => item.dish._id === dishId);
+    if (currentUser) {
+      refetchUserCart();
+    }
+  }, [currentUser, refetchUserCart]);
+
+  useEffect(() => {
+    if (userCart) {
+      setStoreCart(userCart.find((cart) => cart.store._id === storeId));
+    }
+  }, [userCart]);
+
+  useEffect(() => {
+    if (storeCart) {
+      const item = storeCart.items.find((item) => item.dish._id === dishId);
 
       setCartItem(item);
       setQuantity(item?.quantity || 0);
@@ -96,7 +113,7 @@ const page = () => {
         });
       }
     }
-  }, [cartStore]);
+  }, [storeCart]);
 
   useEffect(() => {
     if (cartItem) {
@@ -114,7 +131,7 @@ const page = () => {
 
   useEffect(() => {
     if (updateCartSuccess) {
-      refetchCartStore();
+      toast.success("Cập nhật giỏ hàng thành công");
       if (checkpoint) {
         setCheckpoint(false);
         router.push(`/restaurant/${storeId}`);
@@ -186,16 +203,6 @@ const page = () => {
       toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
     }
   };
-
-  useEffect(() => {
-    console.log("cartStore: ", cartStore);
-    console.log("toppingGroups: ", toppingGroups);
-    console.log("cartItem: ", cartItem);
-    console.log("price: ", price);
-    console.log("toppings: ", toppings);
-    console.log("toppingsValue: ", toppingsValue);
-    console.log("quantity: ", quantity);
-  }, [toppingGroups, cartStore, cartItem, price, toppings, quantity, toppingsValue]);
 
   return (
     <>

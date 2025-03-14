@@ -11,11 +11,14 @@ import ListRestaurant from "../../components/restaurant/ListRestaurant";
 import Heading from "../../components/Heading";
 import { useSelector } from "react-redux";
 import { useGetAllStoreQuery } from "../../redux/features/store/storeApi";
+import { useGetUserCartQuery } from "../../redux/features/cart/cartApi";
 
 const page = () => {
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
-
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
   const { data: allStore, refetch: refetchAllStore } = useGetAllStoreQuery({
     name: "",
     category: "",
@@ -43,6 +46,12 @@ const page = () => {
     refetchRatingStore();
     refetchStandoutStore;
   }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      refetchUserCart();
+    }
+  }, [currentUser, refetchUserCart]);
 
   return (
     <div className='pt-[180px] pb-[100px] md:pt-[75px]' name='home_page'>

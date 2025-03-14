@@ -65,6 +65,7 @@ const page = () => {
 
   useEffect(() => {
     if (completeCartSuccess) {
+      toast.success("Đặt thành công");
       router.push("/home");
     }
   }, [completeCartSuccess]);

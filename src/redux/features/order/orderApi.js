@@ -8,9 +8,15 @@ export const orderApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include",
       }),
+      providesTags: [{ type: "Order", id: "USER_ORDER" }],
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
+          if (result.data.success === true) {
+            dispatch(setUserOrder(result.data.data));
+          } else {
+            dispatch(setUserOrder(null));
+          }
         } catch (error) {
           console.error(error);
         }
