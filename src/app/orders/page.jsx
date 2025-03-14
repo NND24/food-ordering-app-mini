@@ -41,7 +41,7 @@ const page = () => {
         <div className='my-[20px]'>
           <h3 className='text-[#4A4B4D] text-[24px] font-bold mb-[10px]'>Đơn hàng</h3>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
-            {getUserOrderLoading ? (
+            {!getUserOrderLoading ? (
               <>
                 {userOrder ? (
                   userOrder.map((order) => <OrderItem key={order._id} order={order} history={false} />)

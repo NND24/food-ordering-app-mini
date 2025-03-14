@@ -14,6 +14,7 @@ export const cartApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
+          console.log(result.data);
           if (result.data.success === true) {
             dispatch(setUserCart(result.data.data));
           } else {
