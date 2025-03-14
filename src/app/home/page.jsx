@@ -12,11 +12,15 @@ import Heading from "../../components/Heading";
 import { useSelector } from "react-redux";
 import { useGetAllStoreQuery } from "../../redux/features/store/storeApi";
 import { useGetUserCartQuery } from "../../redux/features/cart/cartApi";
+import { useGetUserOrderQuery } from "../../redux/features/order/orderApi";
 
 const page = () => {
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
+  const { refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
     skip: !currentUser,
   });
   const { data: allStore, refetch: refetchAllStore } = useGetAllStoreQuery({
@@ -50,8 +54,9 @@ const page = () => {
   useEffect(() => {
     if (currentUser) {
       refetchUserCart();
+      refetchUserOrder();
     }
-  }, [currentUser, refetchUserCart]);
+  }, [currentUser, refetchUserCart, refetchUserOrder]);
 
   return (
     <div className='pt-[180px] pb-[100px] md:pt-[75px]' name='home_page'>

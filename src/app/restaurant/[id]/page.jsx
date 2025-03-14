@@ -10,7 +10,6 @@ import { useGetStoreInformationQuery } from "../../../redux/features/store/store
 import { useGetAllDishQuery } from "../../../redux/features/dish/dishApi";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { store } from "../../../redux/store";
 import { useGetUserCartQuery } from "../../../redux/features/cart/cartApi";
 
 const page = () => {
