@@ -9,7 +9,6 @@ async function testAddingCart() {
     let cart = []; // Store selected items
 
     try {
-        await driver.get("http://localhost:3000/home");
         // Find and click the store
         const storeCard = await driver.wait(
             until.elementLocated(By.xpath("//h4[text()='Tasty Bites']")),
@@ -21,6 +20,7 @@ async function testAddingCart() {
         // Wait for the restaurant page to load
         await driver.wait(until.urlContains("/restaurant/"), 5000);
         console.log("✅ Redirected to restaurant page");
+
 
         const dishCards = await driver.findElements(By.name("bigDishCard"));
 
@@ -42,14 +42,36 @@ async function testAddingCart() {
             await driver.wait(until.urlMatches(/\/restaurant\/[a-f0-9]{24}\/dish\/[a-f0-9]{24}$/), 5000);
             console.log("✅ Redirected to dish page");
 
+            await driver.sleep(5000);
+
             // Locate dish name
             const dishNameElement = await driver.wait(until.elementLocated(By.name("dishName")), 5000);
             dish.dishName = await dishNameElement.getText();
 
-
-
             // Locate toppings (if available)
             const toppingElements = await driver.findElements(By.name("checkedBtn"));
+
+            // add 1 product
+            const increaseBtn = await driver.wait(
+                until.elementLocated(By.name("increaseQuantityBtn")),
+                5000
+            );
+
+            await driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", increaseBtn);
+            await driver.sleep(500);
+
+            await increaseBtn.click();
+
+            await driver.sleep(1000);
+            const dishQuantity = await driver.wait(
+                until.elementLocated(By.name("quantity")),
+                5000
+            );
+
+            await driver.wait(until.elementIsVisible(dishQuantity), 5000);
+
+            dish.quantity = parseInt(await dishQuantity.getAttribute("value"), 10);
+
             dish.topping = [];
 
             for (let toppingElement of toppingElements) {
@@ -67,6 +89,7 @@ async function testAddingCart() {
                     console.log("✅ Topping is already checked, skipping click.");
                 }
                 const toppingTextElement = await toppingElement.findElement(By.name("toppingName"));
+
 
                 const toppingText = await toppingTextElement.getText();
 
@@ -86,10 +109,13 @@ async function testAddingCart() {
             // Store selected dish in cart (without individual price, only total)
             cart.push(dish);
 
+            await driver.sleep(1000);
+
             // Navigate back to restaurant page
             await driver.navigate().back();
             await driver.wait(until.urlContains("/restaurant/"), 5000);
         }
+        await driver.sleep(1000);
 
         // Navigate to Cart
         const cartDetailBtn = await driver.wait(
@@ -101,7 +127,7 @@ async function testAddingCart() {
 
         await driver.wait(until.urlMatches(/\/restaurant\/[a-f0-9]{24}\/cart\/[a-f0-9]{24}$/), 5000);
         console.log("✅ Redirected to cart detail page");
-
+        await driver.sleep(1000);
         // Verify items in the cart
         const cartItemsElements = await driver.findElements(By.name("cartItems"));
         let cartInUI = [];
@@ -117,7 +143,12 @@ async function testAddingCart() {
             const cartDishNameElement = await cartItemElement.findElement(By.name("dishName"));
             cartDish.dishName = await cartDishNameElement.getText();
 
+            const CartDishQuantity = await driver.wait(
+                until.elementLocated(By.name("quantity")),
+                5000
+            );
 
+            cartDish.quantity = parseInt(await CartDishQuantity.getText(), 10)
 
             // Check for toppings
             const toppingElements = await cartItemElement.findElements(By.name("toppingName"));

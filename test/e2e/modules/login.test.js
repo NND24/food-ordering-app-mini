@@ -18,4 +18,6 @@ async function runLoginTests() {
     return { name: "LOGIN", testResults: results };
 }
 
+runLoginTests()
+
 module.exports = { runLoginTests };

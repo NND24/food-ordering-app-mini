@@ -43,8 +43,8 @@ const DishBigCard = ({ dish, storeId, cartItems }) => {
   }, [updateCartSuccess]);
 
   return (
-    <Link href={`/restaurant/${dish.store}/dish/${dish._id}`} className=''>
-      <div className='relative flex flex-col gap-[4px] pt-[75%] w-full' name='bigDishCard'>
+    <Link href={`/restaurant/${dish.store}/dish/${dish._id}`} className='' name='bigDishCard'>
+      <div className='relative flex flex-col gap-[4px] pt-[75%] w-full' >
         <Image
           src={dish?.image?.url}
           alt=''

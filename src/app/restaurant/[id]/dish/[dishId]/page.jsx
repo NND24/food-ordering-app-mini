@@ -292,7 +292,7 @@ const page = () => {
                     e.preventDefault();
                   }}
                   readOnly
-                  name=''
+                  name="quantity"
                   id=''
                   className='text-[#4A4B4D] text-[24px] font-bold w-[60px] text-center'
                 />

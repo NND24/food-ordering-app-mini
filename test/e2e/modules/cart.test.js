@@ -5,7 +5,10 @@ async function runCartTests() {
     console.log("\n▶▶▶ Running CART Tests...\n");
 
     let results = [];
-    const testCases = [testAddingCart, testAddingCartNoLogin];
+    const testCases = [
+        testAddingCart, 
+        testAddingCartNoLogin
+    ];
 
     for (let testCase of testCases) {
         console.log(`▶ Running test: ${testCase.name}`);

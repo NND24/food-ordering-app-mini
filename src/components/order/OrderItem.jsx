@@ -12,7 +12,7 @@ const OrderItem = ({ history, order }) => {
   }, []);
 
   return (
-    <div className='flex flex-col overflow-hidden border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+    <div className='flex flex-col overflow-hidden border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]' name="orderItem">
       <div className='flex gap-[15px] h-fit md:flex-col p-[10px] md:p-0 md:gap-[10px]'>
         <div className='relative flex flex-col gap-[4px] w-[70px] pt-[70px] md:w-full md:pt-[45%] md:rounded-[8px]'>
           <Image
@@ -55,6 +55,7 @@ const OrderItem = ({ history, order }) => {
           <Link
             href={`/orders/order/${order._id}`}
             className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-bl-md rounded-br-md'
+            name='detailBtn'
           >
             <span className='text-[#4A4B4D] text-[18px] font-semibold md:text-[16px]'>Xem chi tiết đơn hàng</span>
           </Link>
