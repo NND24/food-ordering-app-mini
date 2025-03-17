@@ -38,19 +38,18 @@ const CategorySlider = () => {
             },
           }}
         >
-          {allFoodTypes.map((type) => (
-            <SwiperSlide key={type._id}>
-              <CategoryItem type={type} />
-            </SwiperSlide>
-          ))}
+          {allFoodTypes &&
+            allFoodTypes?.map((type) => (
+              <SwiperSlide key={type._id}>
+                <CategoryItem type={type} />
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
 
       <div className='block sm:hidden'>
         <div className='flex items-center gap-[15px] overflow-x-auto whitespace-nowrap'>
-          {allFoodTypes.map((type) => (
-            <CategoryItem key={type._id} type={type} />
-          ))}
+          {allFoodTypes && allFoodTypes?.map((type) => <CategoryItem key={type._id} type={type} />)}
         </div>
       </div>
     </>
