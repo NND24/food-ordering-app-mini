@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -7,7 +7,11 @@ import CategoryItem from "./CategoryItem";
 import { useGetAllFoodTypesQuery } from "../../redux/features/foodType/foodTypeApi";
 
 const CategorySlider = () => {
-  const { data: allFoodTypes, refetch: refetchAFoodTypes } = useGetAllFoodTypesQuery();
+  const { data: allFoodTypes, refetch: refetchFoodTypes } = useGetAllFoodTypesQuery();
+
+  useEffect(() => {
+    refetchFoodTypes();
+  }, []);
 
   return (
     <>

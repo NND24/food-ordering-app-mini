@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import SortBy from "../../components/filter/SortBy";
 import CategoryFilter from "../../components/filter/CategoryFilter";
 import Header from "../../components/header/Header";
-import RestaurantCard from "../../components/restaurant/RestaurantCard";
 import RestaurantSmallCard from "../../components/restaurant/RestaurantSmallCard";
 import RestaurantBigCard from "../../components/restaurant/RestaurantBigCard";
 import Pagination from "../../components/Pagination";
