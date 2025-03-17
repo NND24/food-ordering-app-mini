@@ -39,6 +39,8 @@ const page = () => {
   useEffect(() => {
     if (userCart) {
       setStoreCart(userCart.find((cart) => cart.store._id === storeId));
+    } else {
+      setStoreCart(null);
     }
   }, [userCart]);
 
@@ -70,7 +72,6 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log("storeCart: ", storeCart);
     if (storeCart) {
       calculateCartPrice();
     }
@@ -164,7 +165,6 @@ const page = () => {
             <Link
               name='cartDetailBtn'
               href={`/restaurant/${storeId}/cart/${storeCart._id}`}
-
               className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center justify-center'
             >
               <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] w-full md:mx-auto'>
