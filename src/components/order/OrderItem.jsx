@@ -35,7 +35,7 @@ const OrderItem = ({ history, order }) => {
       </div>
 
       {history ? (
-        <div className='flex items-center gam-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
+        <div className='flex items-center gap-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
           <Link
             href='/restaurant/123/cart/321'
             className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-bl-md'
@@ -51,7 +51,7 @@ const OrderItem = ({ history, order }) => {
           </Link>
         </div>
       ) : (
-        <div className='flex items-center gam-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
+        <div className='flex items-center gap-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
           <Link
             href={`/orders/order/${order._id}`}
             className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-bl-md rounded-br-md'

@@ -14,7 +14,6 @@ const page = () => {
 
   const { id: storeId, cardId } = useParams();
   const [cartPrice, setCartPrice] = useState(0);
-  const [cartQuantity, setCartQuantity] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState("");
 
   const [completeCart, { isSuccess: completeCartSuccess }] = useCompleteCartMutation();
@@ -52,7 +51,6 @@ const page = () => {
     );
 
     setCartPrice(totalPrice);
-    setCartQuantity(totalQuantity);
   };
 
   const handleCompleteCart = async () => {
