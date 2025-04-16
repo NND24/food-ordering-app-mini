@@ -165,7 +165,7 @@ const page = () => {
 
   return (
     <>
-      {dishInfo && toppingGroups && (
+      {dishInfo && (
         <>
           <div className='pb-[120px] md:pt-[75px] md:mt-[20px] md:bg-[#f9f9f9]'>
             <Heading title={dishInfo.data.name} description='' keywords='' />
@@ -184,7 +184,9 @@ const page = () => {
               </div>
 
               <div className='relative pt-[50%] z-0 md:pt-[40%] lg:pt-[35%]'>
-                <Image src={dishInfo.data.image.url} alt='' layout='fill' objectFit='cover' />
+                {dishInfo.data?.image && (
+                  <Image src={dishInfo.data.image.url || ""} alt='' layout='fill' objectFit='cover' />
+                )}
               </div>
 
               <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
@@ -199,25 +201,27 @@ const page = () => {
                 <p className='text-[#a4a5a8]'>{dishInfo.data.description}</p>
               </div>
 
-              <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
-                {toppingGroups?.data?.map((toppingGroup) => (
-                  <div key={toppingGroup._id}>
-                    <div className='flex gap-[10px]'>
-                      <h3 className='text-[#4A4B4D] text-[20px] font-bold'>{toppingGroup.name}</h3>
-                      <span className='text-[#a4a5a8]'>Không bắt buộc</span>
+              {toppingGroups && (
+                <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+                  {toppingGroups?.data?.map((toppingGroup) => (
+                    <div key={toppingGroup._id}>
+                      <div className='flex gap-[10px]'>
+                        <h3 className='text-[#4A4B4D] text-[20px] font-bold'>{toppingGroup.name}</h3>
+                        <span className='text-[#a4a5a8]'>Không bắt buộc</span>
+                      </div>
+                      {toppingGroup.toppings.map((topping) => (
+                        <ToppingItem
+                          name='toppingItems'
+                          key={topping._id}
+                          topping={topping}
+                          cartItem={cartItem}
+                          handleChooseTopping={handleChooseTopping}
+                        />
+                      ))}
                     </div>
-                    {toppingGroup.toppings.map((topping) => (
-                      <ToppingItem
-                        name='toppingItems'
-                        key={topping._id}
-                        topping={topping}
-                        cartItem={cartItem}
-                        handleChooseTopping={handleChooseTopping}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               <div className='p-[20px] flex items-center justify-center gap-[5px]'>
                 <Image
