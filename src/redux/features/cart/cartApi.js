@@ -1,5 +1,4 @@
 import { apiSlice } from "../api/apiSlice";
-import { orderApi } from "../order/orderApi";
 import { setUserCart } from "./cartSlice";
 
 export const cartApi = apiSlice.injectEndpoints({
@@ -112,7 +111,6 @@ export const cartApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           dispatch(cartApi.util.invalidateTags([{ type: "Cart", id: "USER_CART" }]));
-          dispatch(orderApi.util.invalidateTags([{ type: "Order", id: "USER_ORDER" }]));
         } catch (error) {
           console.error(error);
         }

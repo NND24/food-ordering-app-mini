@@ -3,7 +3,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import NavBar from "../NavBar";
-import SearchBar from "../SearchBar";
 import MobileHeader from "./MobileHeader";
 
 const Header = ({ page }) => {
@@ -11,9 +10,6 @@ const Header = ({ page }) => {
     <div className={`fixed top-0 right-0 left-0 z-[99] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] bg-[#fff]`}>
       <div className='pt-[30px] h-[180px] md:hidden'>
         <MobileHeader text='Xin chào Đạt' />
-        <div className='px-[20px]'>
-          <SearchBar />
-        </div>
       </div>
 
       <div className='w-[90%] mx-auto hidden md:block'>
@@ -22,7 +18,6 @@ const Header = ({ page }) => {
             <Link href='/home'>
               <Image src='/assets/app_logo.png' alt='' height={60} width={60} className='' />
             </Link>
-            <SearchBar />
           </div>
 
           <NavBar page={page} />

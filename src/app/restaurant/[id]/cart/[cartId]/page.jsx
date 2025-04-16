@@ -163,7 +163,9 @@ const page = () => {
         <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[15px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
           <div className='flex items-center justify-between pb-[8px] lg:w-[60%] md:w-[80%] md:mx-auto'>
             <span className='text-[#000] text-[18px]'>Tổng cộng</span>
-            <span className='text-[#4A4B4D] text-[24px] font-semibold'>{cartPrice.toFixed(0)}đ</span>
+            <span className='text-[#4A4B4D] text-[24px] font-semibold'>
+              {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ
+            </span>
           </div>
           <div
             onClick={handleCompleteCart}

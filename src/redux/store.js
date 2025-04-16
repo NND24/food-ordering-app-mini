@@ -8,13 +8,11 @@ import { apiSlice } from "./features/api/apiSlice";
 import userReducer from "./features/user/userSlice";
 import uploadReducer from "./features/upload/uploadSlice";
 import cartReducer from "./features/cart/cartSlice";
-import orderReducer from "./features/order/orderSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
   upload: uploadReducer,
   cart: cartReducer,
-  order: orderReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

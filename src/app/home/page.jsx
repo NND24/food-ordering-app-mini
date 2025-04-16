@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import Image from "next/image";
-import CategorySlider from "../../components/category/CategorySlider";
 import Link from "next/link";
 import Header from "../../components/header/Header";
 import RestaurantBigSlider from "../../components/restaurant/RestaurantBigSlider";
@@ -12,15 +11,11 @@ import Heading from "../../components/Heading";
 import { useSelector } from "react-redux";
 import { useGetAllStoreQuery } from "../../redux/features/store/storeApi";
 import { useGetUserCartQuery } from "../../redux/features/cart/cartApi";
-import { useGetUserOrderQuery } from "../../redux/features/order/orderApi";
 
 const page = () => {
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
-    skip: !currentUser,
-  });
-  const { refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
     skip: !currentUser,
   });
   const { data: allStore, refetch: refetchAllStore } = useGetAllStoreQuery({
@@ -54,9 +49,8 @@ const page = () => {
   useEffect(() => {
     if (currentUser) {
       refetchUserCart();
-      refetchUserOrder();
     }
-  }, [currentUser, refetchUserCart, refetchUserOrder]);
+  }, [currentUser, refetchUserCart]);
 
   return (
     <div className='pt-[180px] pb-[100px] md:pt-[75px]' name='home_page'>
@@ -65,16 +59,9 @@ const page = () => {
       {ratingStore && <Hero allStore={ratingStore.data} />}
 
       <div className='md:w-[90%] md:mx-auto'>
-        <div className='px-[20px] pt-[20px] md:px-0'>
-          <CategorySlider />
-        </div>
-
         <div className='my-[20px] md:hidden'>
           <div className='flex items-center justify-between px-[20px] md:px-0 md:mb-[10px]'>
             <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Các nhà hàng nổi tiếng</h3>
-            <Link href='/search?sort=standout' className='text-[#fc6011] text-[16px]'>
-              Xem tất cả
-            </Link>
           </div>
 
           {standoutStore && (
@@ -126,9 +113,6 @@ const page = () => {
         <div className='my-[20px] px-[20px] md:px-0'>
           <div className='flex items-center justify-between mb-[10px]'>
             <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Phổ biến nhất</h3>
-            <Link href='/search?sort=rating' className='text-[#fc6011] text-[16px]'>
-              Xem tất cả
-            </Link>
           </div>
 
           {ratingStore && <RestaurantBigSlider allStore={ratingStore.data} />}
