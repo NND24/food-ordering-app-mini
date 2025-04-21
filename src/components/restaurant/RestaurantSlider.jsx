@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import RestaurantCard from "./RestaurantCard";
+import RestaurantBigCard from "./RestaurantBigCard";
 
 const RestaurantSlider = ({ reverse, stores }) => {
   return (
@@ -41,7 +42,7 @@ const RestaurantSlider = ({ reverse, stores }) => {
     >
       {stores.map((store) => (
         <SwiperSlide key={store._id}>
-          <RestaurantCard store={store} />
+          <RestaurantBigCard store={store} />
         </SwiperSlide>
       ))}
     </Swiper>

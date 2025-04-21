@@ -6,14 +6,14 @@ import NavBar from "../../components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useLogoutUserMutation } from "../../redux/features/auth/authApi";
+import { useLazyLogoutUserQuery } from "../../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import ConfirmToast from "../../components/ConfirmToast";
 
 const page = () => {
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const [logoutUser] = useLogoutUserMutation();
+  const [triggerLogout] = useLazyLogoutUserQuery();
 
   const userState = useSelector((state) => state?.user);
   const { currentUser } = userState;
@@ -47,21 +47,6 @@ const page = () => {
               <div className='relative w-[30px] pt-[30px]'>
                 <Image src='/assets/pencil.png' alt='' layout='fill' objectFit='contain' />
               </div>
-            </div>
-          </Link>
-
-          <Link
-            href='/orders'
-            className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
-          >
-            <div className='flex items-center gap-[10px]'>
-              <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-                <Image src='/assets/order.png' alt='' layout='fill' objectFit='contain' />
-              </div>
-              <span className='text-[#4A4B4D] text-[20px] font-semibold'>Đơn hàng</span>
-            </div>
-            <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-              <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
             </div>
           </Link>
 
@@ -113,7 +98,7 @@ const page = () => {
         <ConfirmToast
           message='Bạn có chắc chắn muốn đăng xuất?'
           onConfirm={() => {
-            logoutUser();
+            triggerLogout();
           }}
           onClose={() => setShowConfirm(false)}
         />

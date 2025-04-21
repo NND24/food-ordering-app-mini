@@ -143,7 +143,7 @@ const page = () => {
             </div>
 
             <div className='md:p-[20px]'>
-              <div className='my-[20px] px-[20px] md:px-0 lg:mt-[60px]'>
+              <div className='mb-[20px] px-[20px] md:px-0'>
                 <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
                 {allDish && (
                   <ListDishBig
@@ -173,7 +173,9 @@ const page = () => {
                   <div className='w-[4px] h-[4px] rounded-full bg-[#fff]'></div>
                   <span className='text-[#fff] text-[20px] font-semibold'>{cartQuantity} món</span>
                 </div>
-                <span className='text-[#fff] text-[20px] font-semibold'>{cartPrice.toFixed(0)}đ</span>
+                <span className='text-[#fff] text-[20px] font-semibold'>
+                  {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ
+                </span>
               </div>
             </Link>
           )}

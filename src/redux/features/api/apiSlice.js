@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { resetUserState } from "../user/userSlice";
 import { resetCartState } from "../cart/cartSlice";
-import { resetOrderState } from "../order/orderSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1`,
@@ -34,7 +33,6 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       // Xóa dữ liệu người dùng
       api.dispatch(resetUserState());
       api.dispatch(resetCartState());
-      api.dispatch(resetOrderState());
 
       localStorage.removeItem("userId");
       localStorage.removeItem("token");
@@ -46,7 +44,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReAuth,
-  tagTypes: ["Cart", "Order"],
+  tagTypes: ["Cart"],
   endpoints: (builder) => ({}),
 });
 

@@ -1,6 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
 import { resetCartState } from "../cart/cartSlice";
-import { resetOrderState } from "../order/orderSlice";
 import { userApi } from "../user/userApi";
 import { resetUserState } from "../user/userSlice";
 
@@ -53,10 +52,10 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    logoutUser: builder.mutation({
+    logoutUser: builder.query({
       query: () => ({
         url: "/auth/logout",
-        method: "POST",
+        method: "GET",
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
@@ -64,7 +63,6 @@ export const authApi = apiSlice.injectEndpoints({
           await queryFulfilled;
           dispatch(resetUserState());
           dispatch(resetCartState());
-          dispatch(resetOrderState());
 
           localStorage.removeItem("userId");
           localStorage.removeItem("token");
@@ -119,7 +117,7 @@ export const {
   useLoginUserMutation,
   useLoginWithGoogleMutation,
   useRegisterUserMutation,
-  useLogoutUserMutation,
+  useLazyLogoutUserQuery,
   useRefreshAccessTokenQuery,
   useForgotPasswordMutation,
   useCheckOTPMutation,
