@@ -15,6 +15,5 @@ async function runProfileTests() {
     return { name: "PROFILE", testResults: results };
 }
 
-runProfileTests()
 
 module.exports = { runProfileTests };

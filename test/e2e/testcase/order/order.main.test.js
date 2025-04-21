@@ -158,8 +158,8 @@ async function testSubmitOrder() {
 
             // Total price (only total price is needed in cart)
             const cartTotalPriceElement = await cartItemElement.findElement(By.name("price"));
-            cartDish.totalPrice = parseInt(await cartTotalPriceElement.getText());
-
+            const cartTotalPriceText = await cartTotalPriceElement.getText();
+            cartDish.totalPrice = parseInt(cartTotalPriceText.replace(/\./g, ""), 10);
             cartInUI.push(cartDish);
         }
 
@@ -237,7 +237,7 @@ async function testSubmitOrder() {
 
             const cartTotalPriceElement = await cartItemElement.findElement(By.name("price"));
             const toatlPriceText = await cartTotalPriceElement.getText()
-            orderDish.totalPrice = parseInt(toatlPriceText.replace(/\D/g, ""), 10);
+            orderDish.totalPrice = parseInt(toatlPriceText.replace(/\D/g, "").replace(/\./g, ""), 10);
 
             orderInUI.push(orderDish);
         }

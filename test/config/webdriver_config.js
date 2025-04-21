@@ -5,7 +5,7 @@ async function createDriver() {
     try {
         // Set Chrome options
         let options = new chrome.Options();
-        options.addArguments("--headless"); // Run Chrome in headless mode (no UI)
+        // options.addArguments("--headless"); // Run Chrome in headless mode (no UI)
         options.addArguments("--disable-gpu"); // Improve performance in some environments
         options.addArguments("--window-size=1280,800"); // Set a default window size
         options.addArguments("--no-sandbox"); // Bypass OS security policies (for CI/CD)
