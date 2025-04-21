@@ -11,50 +11,11 @@ import { useGetUserCartQuery, useUpdateCartMutation } from "../../../../../redux
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const NoteModel = ({ setShowNoteModel }) => {
-  return (
-    <div className='fixed top-0 right-0 left-0 bottom-0 flex items-center justify-center z-20'>
-      <div className='bg-[#fff] rounded-[8px] w-[90%] z-30'>
-        <div
-          className='flex items-center gap-[30px] px-[20px] py-[20px]'
-          style={{ borderBottom: "1px solid #a3a3a3a3" }}
-        >
-          <Image
-            src='/assets/close.png'
-            alt=''
-            width={40}
-            height={40}
-            className='p-[8px] rounded-full bg-[#e0e0e0a3]'
-            onClick={() => setShowNoteModel(false)}
-          />
-          <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Thêm lưu ý cho quán</h3>
-        </div>
-        <p className='text-[#4A4B4D] text-[18px] pt-[20px] px-[20px]'>Không bắt buộc</p>
-        <textarea
-          name=''
-          id=''
-          className='p-[20px] w-full'
-          placeholder='Việc thực hiện yêu cầu còn tùy thuộc vào khả năng của quán'
-        ></textarea>
-        <button className='bg-[#fc6011] text-[#fff] text-[18px] font-semibold w-[97%] p-[15px] rounded-[8px] mx-[20px] mb-[20px] cursor-pointer'>
-          Xác Nhận
-        </button>
-      </div>
-
-      <div
-        className='fixed top-0 right-0 left-0 bottom-0 bg-[#0000008a] z-20'
-        onClick={() => setShowNoteModel(false)}
-      ></div>
-    </div>
-  );
-};
-
 const page = () => {
   const router = useRouter();
   const { id: storeId, dishId } = useParams();
 
   const [storeCart, setStoreCart] = useState(null);
-  const [showNoteModel, setShowNoteModel] = useState(false);
   const [quantity, setQuantity] = useState(0);
   const [cartItem, setCartItem] = useState(null);
   const [toppings, setToppings] = useState([]);
@@ -204,7 +165,7 @@ const page = () => {
 
   return (
     <>
-      {dishInfo && toppingGroups && (
+      {dishInfo && (
         <>
           <div className='pb-[120px] md:pt-[75px] md:mt-[20px] md:bg-[#f9f9f9]'>
             <Heading title={dishInfo.data.name} description='' keywords='' />
@@ -223,7 +184,9 @@ const page = () => {
               </div>
 
               <div className='relative pt-[50%] z-0 md:pt-[40%] lg:pt-[35%]'>
-                <Image src={dishInfo.data.image.url} alt='' layout='fill' objectFit='cover' />
+                {dishInfo.data?.image && (
+                  <Image src={dishInfo.data.image.url || ""} alt='' layout='fill' objectFit='cover' />
+                )}
               </div>
 
               <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
@@ -232,45 +195,33 @@ const page = () => {
                     {dishInfo.data.name}
                   </h3>
                   <span className='text-[#4A4B4D] text-[28px] font-bold' name='dishPrice'>
-                    {dishInfo.data.price}đ
+                    {Number(dishInfo.data.price).toLocaleString("vi-VN")}đ
                   </span>
                 </div>
                 <p className='text-[#a4a5a8]'>{dishInfo.data.description}</p>
               </div>
 
-              <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
-                {toppingGroups?.data?.map((toppingGroup) => (
-                  <div key={toppingGroup._id}>
-                    <div className='flex gap-[10px]'>
-                      <h3 className='text-[#4A4B4D] text-[20px] font-bold'>{toppingGroup.name}</h3>
-                      <span className='text-[#a4a5a8]'>Không bắt buộc</span>
+              {toppingGroups && (
+                <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+                  {toppingGroups?.data?.map((toppingGroup) => (
+                    <div key={toppingGroup._id}>
+                      <div className='flex gap-[10px]'>
+                        <h3 className='text-[#4A4B4D] text-[20px] font-bold'>{toppingGroup.name}</h3>
+                        <span className='text-[#a4a5a8]'>Không bắt buộc</span>
+                      </div>
+                      {toppingGroup.toppings.map((topping) => (
+                        <ToppingItem
+                          name='toppingItems'
+                          key={topping._id}
+                          topping={topping}
+                          cartItem={cartItem}
+                          handleChooseTopping={handleChooseTopping}
+                        />
+                      ))}
                     </div>
-                    {toppingGroup.toppings.map((topping) => (
-                      <ToppingItem
-                        name='toppingItems'
-                        key={topping._id}
-                        topping={topping}
-                        cartItem={cartItem}
-                        handleChooseTopping={handleChooseTopping}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-              <div className='py-[20px]'>
-                <div className='flex gap-[10px] px-[20px] pb-[20px]'>
-                  <h3 className='text-[#4A4B4D] text-[20px] font-bold'>Thêm lưu ý cho quán</h3>
-                  <span className='text-[#a4a5a8]'>Không bắt buộc</span>
+                  ))}
                 </div>
-                <div
-                  className='p-[20px]'
-                  style={{ borderBottom: "1px solid #a3a3a3a3", borderTop: "1px solid #a3a3a3a3" }}
-                  onClick={() => setShowNoteModel(!showNoteModel)}
-                >
-                  <span className='text-[#a4a5a8]'>Việc thực hiện yêu cầu còn tùy thuộc vào khả năng của quán</span>
-                </div>
-              </div>
+              )}
 
               <div className='p-[20px] flex items-center justify-center gap-[5px]'>
                 <Image
@@ -322,7 +273,7 @@ const page = () => {
                 <span className='text-[#fff] text-[20px] font-semibold'>Thêm vào giỏ hàng</span>
                 <span className='text-[#fff] text-[20px] font-semibold'>-</span>
                 <span className='text-[#fff] text-[20px] font-semibold' name='totalPrice'>
-                  {price.toFixed(0)}đ
+                  {Number(price.toFixed(0)).toLocaleString("vi-VN")}đ
                 </span>
               </div>
             ) : (
@@ -345,8 +296,6 @@ const page = () => {
           </div>
         </>
       )}
-
-      {showNoteModel && dishInfo && <NoteModel setShowNoteModel={setShowNoteModel} />}
     </>
   );
 };

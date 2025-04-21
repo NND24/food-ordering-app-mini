@@ -1,5 +1,4 @@
 import { apiSlice } from "../api/apiSlice";
-import { orderApi } from "../order/orderApi";
 import { setUserCart } from "./cartSlice";
 
 export const cartApi = apiSlice.injectEndpoints({
@@ -72,7 +71,7 @@ export const cartApi = apiSlice.injectEndpoints({
     clearCartItem: builder.mutation({
       query: (storeId) => ({
         url: `/cart/clear/item/${storeId}`,
-        method: "POST",
+        method: "DELETE",
         credentials: "include",
       }),
       async onQueryStarted(storeId, { queryFulfilled, dispatch }) {
@@ -89,7 +88,7 @@ export const cartApi = apiSlice.injectEndpoints({
     clearCart: builder.mutation({
       query: () => ({
         url: `/cart/clear`,
-        method: "POST",
+        method: "DELETE",
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
@@ -112,7 +111,6 @@ export const cartApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           dispatch(cartApi.util.invalidateTags([{ type: "Cart", id: "USER_CART" }]));
-          dispatch(orderApi.util.invalidateTags([{ type: "Order", id: "USER_ORDER" }]));
         } catch (error) {
           console.error(error);
         }

@@ -27,31 +27,6 @@ const NavBar = ({ page }) => {
         </div>
       ) : (
         <div className='relative flex items-center justify-between h-full w-full md:justify-normal md:gap-[20px]'>
-          <div className='flex items-center gap-[20px]'>
-            <Link href='/orders' className='group flex flex-col items-center gap-[1px]'>
-              <Image
-                src='/assets/order.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`group-hover:hidden  ${page == "orders" ? "!hidden" : ""}`}
-              />
-              <Image
-                src='/assets/order_active.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`hidden group-hover:block ${page == "orders" ? "!block" : ""}`}
-              />
-              <p
-                className={`text-[12px] group-hover:text-[#fc6011] ${
-                  page == "orders" ? "text-[#fc6011]" : "text-[#4A4B4D]"
-                }`}
-              >
-                Đơn hàng
-              </p>
-            </Link>
-          </div>
           <Link
             href='/home'
             className='absolute top-[-40px] right-[50%] translate-x-[50%] bg-[#fff] p-[15px] rounded-full md:hidden'

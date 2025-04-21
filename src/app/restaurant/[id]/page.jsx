@@ -39,6 +39,8 @@ const page = () => {
   useEffect(() => {
     if (userCart) {
       setStoreCart(userCart.find((cart) => cart.store._id === storeId));
+    } else {
+      setStoreCart(null);
     }
   }, [userCart]);
 
@@ -70,7 +72,6 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log("storeCart: ", storeCart);
     if (storeCart) {
       calculateCartPrice();
     }
@@ -142,7 +143,7 @@ const page = () => {
             </div>
 
             <div className='md:p-[20px]'>
-              <div className='my-[20px] px-[20px] md:px-0 lg:mt-[60px]'>
+              <div className='mb-[20px] px-[20px] md:px-0'>
                 <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
                 {allDish && (
                   <ListDishBig
@@ -164,7 +165,6 @@ const page = () => {
             <Link
               name='cartDetailBtn'
               href={`/restaurant/${storeId}/cart/${storeCart._id}`}
-
               className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center justify-center'
             >
               <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] w-full md:mx-auto'>
@@ -173,7 +173,9 @@ const page = () => {
                   <div className='w-[4px] h-[4px] rounded-full bg-[#fff]'></div>
                   <span className='text-[#fff] text-[20px] font-semibold'>{cartQuantity} món</span>
                 </div>
-                <span className='text-[#fff] text-[20px] font-semibold'>{cartPrice.toFixed(0)}đ</span>
+                <span className='text-[#fff] text-[20px] font-semibold'>
+                  {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ
+                </span>
               </div>
             </Link>
           )}

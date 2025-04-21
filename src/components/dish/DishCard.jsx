@@ -28,7 +28,8 @@ const DishCard = ({ dish, storeId, cartItems }) => {
       if (dish.toppingGroups.length > 0) {
         router.push(`/restaurant/${storeId}/dish/${dish._id}`);
       } else {
-        const newQuantity = Math.max(cartItem?.quantity + amount, 0);
+        const currentQuantity = cartItem?.quantity || 0;
+        const newQuantity = Math.max(currentQuantity + amount, 0);
         await updateCart({ storeId, dishId: dish._id, quantity: newQuantity });
       }
     } else {
@@ -54,10 +55,12 @@ const DishCard = ({ dish, storeId, cartItems }) => {
       </div>
 
       <div className='flex flex-col flex-1'>
-        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1' name='storeName'>{dish?.name}</h4>
+        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1' name='storeName'>
+          {dish?.name}
+        </h4>
         {dish?.description && <p className='text-[#a4a5a8] text-[14px]'>{dish?.description}</p>}
         <div className='flex items-center justify-between'>
-          <span className='text-[#000] font-bold'>{dish?.price}đ</span>
+          <span className='text-[#000] font-bold'>{Number(dish?.price).toLocaleString("vi-VN")}đ</span>
           <div className='absolute bottom-[8%] right-[2%]'>
             {cartItem?.quantity > 0 ? (
               <div className='flex items-center justify-center bg-[#fff] gap-[4px] border border-[#fc6011] border-solid rounded-full px-[8px] py-[4px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>

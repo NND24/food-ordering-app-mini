@@ -8,16 +8,28 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useCompleteCartMutation, useGetDetailCartQuery } from "../../../../../redux/features/cart/cartApi";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const page = () => {
   const router = useRouter();
 
   const { id: storeId, cardId } = useParams();
   const [cartPrice, setCartPrice] = useState(0);
-  const [cartQuantity, setCartQuantity] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhonenumber, setCustomerPhonenumber] = useState("");
+
+  const userState = useSelector((state) => state?.user);
+  const { currentUser } = userState;
 
   const [completeCart, { isSuccess: completeCartSuccess }] = useCompleteCartMutation();
+
+  useEffect(() => {
+    if (currentUser) {
+      setCustomerName(currentUser?.name);
+      setCustomerPhonenumber(currentUser?.phonenumber);
+    }
+  }, [currentUser]);
 
   const {
     data: detailCart,
@@ -52,14 +64,26 @@ const page = () => {
     );
 
     setCartPrice(totalPrice);
-    setCartQuantity(totalQuantity);
   };
 
   const handleCompleteCart = async () => {
-    if (deliveryAddress) {
-      await completeCart({ storeId, paymentMethod: "cash", deliveryAddress, location: [-74.0059, 40.7127] });
+    if (!deliveryAddress) {
+      toast.error("Vui lòng nhập địa chỉ giao hàng");
+    } else if (!customerName) {
+      toast.error("Vui lòng nhập tên người nhận");
+    } else if (!customerPhonenumber) {
+      toast.error("Vui lòng nhập số điện thoại người nhận");
     } else {
-      toast.error("Vui lòng nhập địa chỉ");
+      await completeCart({
+        storeId,
+        paymentMethod: "cash",
+        deliveryAddress: deliveryAddress,
+        customerName: customerName,
+        customerPhonenumber: customerPhonenumber,
+        detailAddress: "",
+        note: "",
+        location: [-74.0059, 40.7127],
+      });
     }
   };
 
@@ -108,6 +132,47 @@ const page = () => {
             style={{ borderBottom: "6px solid #e0e0e0a3", borderTop: "6px solid #e0e0e0a3" }}
           >
             <p className='text-[#4A4B4D] text-[18px] font-bold pb-[20px]'>Giao tới</p>
+
+            <div
+              className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden mb-[10px]`}
+            >
+              <Image
+                src='/assets/account.png'
+                alt=''
+                width={20}
+                height={20}
+                className='absolute top-[50%] left-[10px] translate-y-[-50%]'
+              />
+              <input
+                type='text'
+                name='customerName'
+                readOnly
+                value={customerName}
+                placeholder='Nhập tên người liên lạc'
+                onChange={(e) => setCustomerName(e.target.value)}
+                className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
+              />
+            </div>
+
+            <div
+              className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden mb-[10px]`}
+            >
+              <Image
+                src='/assets/phone.png'
+                alt=''
+                width={20}
+                height={20}
+                className='absolute top-[50%] left-[10px] translate-y-[-50%]'
+              />
+              <input
+                type='text'
+                name='customerPhonenumber'
+                value={customerPhonenumber}
+                placeholder='Nhập số điện thoại liên lạc'
+                onChange={(e) => setCustomerPhonenumber(e.target.value)}
+                className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
+              />
+            </div>
 
             <div
               className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden`}
@@ -165,7 +230,9 @@ const page = () => {
         <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[15px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
           <div className='flex items-center justify-between pb-[8px] lg:w-[60%] md:w-[80%] md:mx-auto'>
             <span className='text-[#000] text-[18px]'>Tổng cộng</span>
-            <span className='text-[#4A4B4D] text-[24px] font-semibold'>{cartPrice.toFixed(0)}đ</span>
+            <span className='text-[#4A4B4D] text-[24px] font-semibold'>
+              {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ
+            </span>
           </div>
           <div
             onClick={handleCompleteCart}
