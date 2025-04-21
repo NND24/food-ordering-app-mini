@@ -23,13 +23,9 @@ const OrderSummary = ({ detailItems, price }) => {
                 name='cartItems'
               >
                 <div className='p-[8px] rounded-[6px] border border-[#a3a3a3a3] border-solid w-[40px] h-[40px]'>
-<<<<<<< HEAD
-                  <span className='text-[#fc6011] font-semibold' name="quantity">{item.quantity}x</span>
-=======
                   <span className='text-[#fc6011] font-semibold' name='quantity'>
                     {item.quantity}x
                   </span>
->>>>>>> 8dc9be0354ac13729b5f3d61cec845adff9e51d0
                 </div>
 
                 <div className='flex flex-1 justify-between'>

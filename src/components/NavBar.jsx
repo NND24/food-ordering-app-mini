@@ -66,7 +66,7 @@ const NavBar = ({ page }) => {
               </Link>
             </div>
 
-            <Link href='/account' className='group flex flex-col items-center gap-[1px]'>
+            <Link href='/account' className='group flex flex-col items-center gap-[1px]' name='accountBtn'>
               <Image
                 src='/assets/account.png'
                 alt=''

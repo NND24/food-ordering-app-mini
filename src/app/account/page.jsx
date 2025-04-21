@@ -44,7 +44,7 @@ const page = () => {
                 <p className='text-[#636464] text-[16px]'>{currentUser?.phonenumber}</p>
               </div>
 
-              <div className='relative w-[30px] pt-[30px]'>
+              <div className='relative w-[30px] pt-[30px]' name='editProfileBtn'>
                 <Image src='/assets/pencil.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>

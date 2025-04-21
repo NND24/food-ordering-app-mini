@@ -6,8 +6,11 @@ async function loginAndReturnDriver() {
 
     try {
         console.log("🔄 Logging in...");
-
         await driver.get("http://localhost:3000/auth/login");
+
+        if (!process.env.LEGIT_EMAIL || !process.env.LEGIT_PASSWORD) {
+            throw new Error("❌ Missing environment variables LEGIT_EMAIL or LEGIT_PASSWORD");
+        }
 
         const emailField = await driver.findElement(By.name("email"));
         if (emailField) await emailField.sendKeys(process.env.LEGIT_EMAIL);

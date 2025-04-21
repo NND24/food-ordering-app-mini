@@ -4,6 +4,7 @@ const { runLoginTests } = require("./modules/login.test");
 const { runForgotPasswordTests } = require("./modules/forgotPassword.test");
 const { runCartTests } = require("./modules/cart.test")
 const { runOrderTests } = require("./modules/order.test")
+const { runProfileTests } = require("./modules/profile.test");
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URI || "http://localhost:5000";
 
@@ -28,7 +29,7 @@ async function runTests() {
     console.log("✅ Server is running. Proceeding with tests...\n");
 
     let groupResults = [];
-    let testGroups = [runLoginTests, runForgotPasswordTests, runCartTests, runOrderTests];
+    let testGroups = [runLoginTests, runForgotPasswordTests, runCartTests, runOrderTests, runProfileTests];
 
     console.log("\n🔍 Running E2E Tests...\n");
 
