@@ -128,6 +128,7 @@ async function testAdjustProfile() {
     } finally {
         await driver.quit();
     }
+    return result;
 }
 
 module.exports = { testAdjustProfile };

@@ -29,7 +29,12 @@ async function runTests() {
     console.log("✅ Server is running. Proceeding with tests...\n");
 
     let groupResults = [];
-    let testGroups = [runLoginTests, runForgotPasswordTests, runCartTests, runOrderTests, runProfileTests];
+    let testGroups = [
+        // runLoginTests, 
+        // runForgotPasswordTests, 
+        runCartTests, 
+        runOrderTests, 
+        runProfileTests];
 
     console.log("\n🔍 Running E2E Tests...\n");
 

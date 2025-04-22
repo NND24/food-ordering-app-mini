@@ -23,6 +23,5 @@ async function runForgotPasswordTests() {
   return { name: "FORGOT_PASSWORD", testResults: results };
 }
 
-runForgotPasswordTests();
 
 module.exports = { runForgotPasswordTests };

@@ -56,6 +56,7 @@ async function testEmptyProfileSubmission() {
     } finally {
         await driver.quit();
     }
+    return result;
 }
 
 module.exports = { testEmptyProfileSubmission };

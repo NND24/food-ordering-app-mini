@@ -15,6 +15,5 @@ async function runOrderTests() {
     return { name: "CART", testResults: results };
 }
 
-runOrderTests();
 
 module.exports = { runOrderTests };

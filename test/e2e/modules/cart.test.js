@@ -16,6 +16,5 @@ async function runCartTests() {
   return { name: "CART", testResults: results };
 }
 
-runCartTests();
 
 module.exports = { runCartTests };
