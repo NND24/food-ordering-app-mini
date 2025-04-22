@@ -54,10 +54,11 @@ const page = () => {
   const calculateCartPrice = () => {
     const { totalPrice, totalQuantity } = storeCart.items.reduce(
       (acc, item) => {
-        const dishPrice = (item.dish?.price || 0) * item.quantity;
+        const dishPrice = Number(item.dish?.price || 0) * Number(item.quantity);
         const toppingsPrice =
-          (Array.isArray(item.toppings) ? item.toppings.reduce((sum, topping) => sum + (topping.price || 0), 0) : 0) *
-          item.quantity;
+          (Array.isArray(item.toppings)
+            ? item.toppings.reduce((sum, topping) => sum + Number(topping.price || 0), 0)
+            : 0) * Number(item.quantity || 0);
 
         acc.totalPrice += dishPrice + toppingsPrice;
         acc.totalQuantity += item.quantity;

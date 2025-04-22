@@ -78,11 +78,11 @@ const page = () => {
 
   useEffect(() => {
     if (cartItem) {
-      const dishPrice = (cartItem.dish?.price || 0) * cartItem.quantity;
+      const dishPrice = Number(cartItem.dish?.price || 0) * Number(cartItem.quantity);
       const toppingsPrice =
         (Array.isArray(cartItem.toppings)
-          ? cartItem.toppings.reduce((sum, topping) => sum + (topping.price || 0), 0)
-          : 0) * cartItem.quantity;
+          ? cartItem.toppings.reduce((sum, topping) => sum + Number(topping.price || 0), 0)
+          : 0) * Number(cartItem.quantity);
 
       const totalPrice = dishPrice + toppingsPrice;
 
@@ -243,7 +243,7 @@ const page = () => {
                     e.preventDefault();
                   }}
                   readOnly
-                  name="quantity"
+                  name='quantity'
                   id=''
                   className='text-[#4A4B4D] text-[24px] font-bold w-[60px] text-center'
                 />
