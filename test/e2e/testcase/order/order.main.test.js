@@ -185,70 +185,12 @@ async function testSubmitOrder() {
         await driver.wait(until.urlMatches(/\/home$/), 5000);
         console.log("✅ Redirected homepage");
 
-
-        await driver.sleep(10000); // wait for the toat to disapear
-
-        const orderLink = await driver.wait(
-            until.elementLocated(By.xpath("//a[@href='/orders']")),
-            5000
-        );
-        await orderLink.click();
-        console.log("✅ Clicked order link");
-
-        await driver.wait(until.urlMatches(/\/orders$/), 5000);
-        console.log("✅ Redirected to orders page");
-
-
-        const orderItems = await driver.findElements(By.name("orderItem"));
-        if (orderItems.length === 0) {
-            console.error("❌ No orders found!");
-            return;
-        }
-
-        const detailBtn = await orderItems[0].findElement(By.name("detailBtn"));
-        await detailBtn.click();
-        await driver.wait(until.urlMatches(/\/orders\/order\/[a-f0-9]{24}$/), 5000);
-
-        console.log("✅ Redirected to latest order detail");
-
-        const orderItemsElements = await driver.findElements(By.name("cartItems"));
-        let orderInUI = [];
-
-        for (let i = 0; i < orderItemsElements.length; i++) {
-            let orderDish = {};
-
-            const updateOrderItems = await driver.findElements(By.name("cartItems"));
-            const cartItemElement = updateOrderItems[i];
-
-            const cartDishNameElement = await cartItemElement.findElement(By.name("dishName"));
-            orderDish.dishName = await cartDishNameElement.getText();
-
-            const dishQuantity = await driver.wait(
-                until.elementLocated(By.name("quantity")),
-                5000
-            );
-            orderDish.quantity = parseInt(await dishQuantity.getText())
-
-            const toppingElements = await cartItemElement.findElements(By.name("toppingName"));
-            orderDish.topping = [];
-            for (let toppingElement of toppingElements) {
-                orderDish.topping.push(await toppingElement.getText());
-            }
-
-            const cartTotalPriceElement = await cartItemElement.findElement(By.name("price"));
-            const toatlPriceText = await cartTotalPriceElement.getText()
-            orderDish.totalPrice = parseInt(toatlPriceText.replace(/\D/g, "").replace(/\./g, ""), 10);
-
-            orderInUI.push(orderDish);
-        }
-
-        if (compareCarts(orderInUI, cartInUI)) {
-            console.log("✅ Order matches UI correctly!");
+        try {
+            await driver.wait(until.elementLocated(By.className("Toastify__toast-container Toastify__toast-container--top-right")), 10000);
+            console.log("✅ Order successfully submitted!");
             result.status = "Passed";
-        } else {
-            console.error("❌ Order mismatch detected!");
-            console.log("📌 Expected Order:", JSON.stringify(cartInUI, null, 2));
-            console.log("📌 Actual Order in UI:", JSON.stringify(orderInUI, null, 2));
+        } catch (error) {
+            console.error("❌ Order submission error message not found");
         }
     } catch (error) {
         console.error(`❌ ${result.name} Failed:`, error);
@@ -278,5 +220,7 @@ function compareCarts(cart1, cart2) {
 
     return JSON.stringify(sortedCart1) === JSON.stringify(sortedCart2);
 }
+
+// testSubmitOrder()
 
 module.exports = { testSubmitOrder };

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { Builder, By, until } = require("selenium-webdriver");
 const { loginAndReturnDriver } = require("../../../utils/loginUtil");
+const { clear } = require("console");
 
 async function testAddingCart() {
     let driver = await loginAndReturnDriver();
@@ -159,10 +160,21 @@ async function testAddingCart() {
 
             // Total price (only total price is needed in cart)
             const cartTotalPriceElement = await cartItemElement.findElement(By.name("price"));
-            cartDish.totalPrice = parseInt(await cartTotalPriceElement.getText());
+            const priceText = await cartTotalPriceElement.getText();
+            cartDish.totalPrice = parseInt(priceText.replace(".", ""));
 
             cartInUI.push(cartDish);
         }
+        await driver.get("http://localhost:3000/carts");
+
+        const clearCartBtn = await driver.wait(
+            until.elementLocated(By.name("clear-cart")),
+            5000
+        );
+        await clearCartBtn.click();
+
+        console.log("✅ Clicked clear cart button");
+
 
         // 🔹 **Comparison Logic**
         if (compareCarts(cart, cartInUI)) {
@@ -201,5 +213,9 @@ function compareCarts(cart1, cart2) {
 
     return JSON.stringify(sortedCart1) === JSON.stringify(sortedCart2);
 }
+
+// testAddingCart()
+//     .then(result => console.log(result))
+//     .catch(error => console.error("Error running test:", error));
 
 module.exports = { testAddingCart };

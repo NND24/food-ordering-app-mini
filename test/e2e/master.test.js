@@ -30,11 +30,12 @@ async function runTests() {
 
     let groupResults = [];
     let testGroups = [
-        // runLoginTests, 
-        // runForgotPasswordTests, 
+        runLoginTests, 
+        runForgotPasswordTests, 
         runCartTests, 
         runOrderTests, 
-        runProfileTests];
+        runProfileTests
+    ];
 
     console.log("\n🔍 Running E2E Tests...\n");
 

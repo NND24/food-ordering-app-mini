@@ -54,6 +54,7 @@ const page = () => {
                   <div className='flex items-center justify-between'>
                     <h3 className='text-[#4A4B4D] text-[24px] font-bold mb-[10px]'>Các cửa hàng đang đặt món</h3>
                     <div
+                      name='clear-cart'
                       className='flex items-center justify-center gap-[10px] p-[8px] rounded-[6px] bg-[#fc6011] cursor-pointer'
                       onClick={() => setShowConfirm(true)}
                     >
